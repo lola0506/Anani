@@ -644,7 +644,7 @@ function createProduct(name, category, price, city, description, image) {
         image: image
     });
 
-    displayProducts();
+    async function loadProducts() {   const { data, error } = await supabase     .from("products")     .select("*")     .order("created_at", { ascending: false });    if (error) {     console.error(error);     return;   }    products = data.map(p => ({     name: p.name,     category: p.category,     price: p.price,     city: p.city,     description: p.description,     image: p.image_url   }));    displayProducts(); }  loadProducts();
 
     closeModals();
 
@@ -690,7 +690,7 @@ async function login() {
     console.log(data);
 }
 
-displayProducts();
+async function loadProducts() {   const { data, error } = await supabase     .from("products")     .select("*")     .order("created_at", { ascending: false });    if (error) {     console.error(error);     return;   }    products = data.map(p => ({     name: p.name,     category: p.category,     price: p.price,     city: p.city,     description: p.description,     image: p.image_url   }));    displayProducts(); }  loadProducts();
 
 </script>
 

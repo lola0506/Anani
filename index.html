@@ -633,7 +633,40 @@ function addProduct() {
     }
 }
 
-function createProduct(name, category, price, city, description, image) {
+async function createProduct() {
+  const name = document.getElementById("productName").value;
+  const category = document.getElementById("productCategory").value;
+  const price = document.getElementById("productPrice").value;
+  const city = document.getElementById("productCity").value;
+  const description = document.getElementById("productDescription").value;
+  const image = document.getElementById("productImage").value;
+
+  if (!name || !category || !price || !city) {
+    alert("Merci de remplir les champs obligatoires.");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("products")
+    .insert({
+      name: name,
+      price: Number(price),
+      category: category,
+      city: city,
+      description: description,
+      image_url: image
+    });
+
+  if (error) {
+    console.error(error);
+    alert("Impossible de publier l'article. Connecte-toi à ton compte.");
+    return;
+  }
+
+  alert("Article publié !");
+  closeModals();
+  await loadProducts();
+}
 
     products.unshift({
         name: name,
